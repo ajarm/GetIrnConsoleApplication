@@ -32,8 +32,9 @@ namespace GetIrnConsoleApplication.MainProgram
             var objResponse = new OutputResponse();
             try
             {
-                string date = DateTime.Now.Date.ToString("yyyy-MM-dd");
-           
+                string date = DateTime.Today.AddDays(-1).ToString("yyyy-MM-dd");
+
+
                 DataSet ds = new DataSet();
                 DBOperation dBOperation = new DBOperation();
                 ds = dBOperation.GetDate(date);
