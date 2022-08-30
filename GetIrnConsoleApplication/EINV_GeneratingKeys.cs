@@ -35,40 +35,39 @@ namespace GetIrnConsoleApplication
                 SQLHelper.EINV_AUTH_DataAdapter(strGSTINNo, out Username, out EncryptedAppKey, out EncryptedPassword, out accesstoken);
 
 
-                Attributes objEINVAuth = new Attributes();
-                objEINVAuth.data = new Data();
-                objEINVAuth.data.UserName = Username;
-                objEINVAuth.data.Password = EncryptedPassword;
-                objEINVAuth.data.Appkey = EncryptedAppKey;
-                objEINVAuth.data.ForceRefreshAccessToken = accesstoken;
-
-                string jsondata = JsonConvert.SerializeObject(objEINVAuth);
-
-                //Certificate_Path = binPath + "\\" + ConfigurationManager.AppSettings["EINV_Certificate"].ToString();
-                //// reading public key string from file
-                //using (var reader = File.OpenText(Certificate_Path))
-                //{
-                //    public_key = reader.ReadToEnd().Replace("-----BEGIN PUBLIC KEY-----", "").Replace("-----END PUBLIC KEY-----", "").Replace("\n", "");
-                //}
-
-                //byte[] _aeskey = EncryptionUtils.generateSecureKey();
-                //AppKey = Convert.ToBase64String(_aeskey);
-                //Helper.EINV_AUTH_DataAdapter(strGSTINNo, out Username, out EncryptedAppKey, out EncryptedPassword, out accesstoken);
-
                 //Attributes objEINVAuth = new Attributes();
-                //objEINVAuth.UserName = Username;
-                //objEINVAuth.Password = EncryptedPassword;
-                //objEINVAuth.Appkey = EncryptedAppKey;
-                //objEINVAuth.ForceRefreshAccessToken = accesstoken;
+                //objEINVAuth.data = new Data();
+                //objEINVAuth.data.UserName = Username;
+                //objEINVAuth.data.Password = EncryptedPassword;
+                //objEINVAuth.data.Appkey = EncryptedAppKey;
+                //objEINVAuth.data.ForceRefreshAccessToken = accesstoken;
+
                 //string jsondata = JsonConvert.SerializeObject(objEINVAuth);
 
-                //byte[] encodejson = UTF8Encoding.UTF8.GetBytes(jsondata);
-                //string json = Convert.ToBase64String(encodejson);
-                //string payload = EncryptionUtils.Encrypt(json, public_key);
-                //AuthTokenAttr objEINV = new AuthTokenAttr();
-                //objEINV.Data = payload;
+                Certificate_Path = binPath + "\\" + ConfigurationManager.AppSettings["EINV_Certificate"].ToString();
+                // reading public key string from file
+                using (var reader = File.OpenText(Certificate_Path))
+                {
+                    public_key = reader.ReadToEnd().Replace("-----BEGIN PUBLIC KEY-----", "").Replace("-----END PUBLIC KEY-----", "").Replace("\n", "");
+                }
 
-                //string JsonData = JsonConvert.SerializeObject(objEINV);
+                byte[] _aeskey = EncryptionUtils.generateSecureKey();
+                AppKey = Convert.ToBase64String(_aeskey);
+
+                Attributes objEINVAuth = new Attributes();
+                objEINVAuth.UserName = Username;
+                objEINVAuth.Password = EncryptedPassword;
+                objEINVAuth.Appkey = EncryptedAppKey;
+                objEINVAuth.ForceRefreshAccessToken = accesstoken;
+                string JsonData = JsonConvert.SerializeObject(objEINVAuth);
+
+                byte[] encodejson = UTF8Encoding.UTF8.GetBytes(JsonData);
+                string json = Convert.ToBase64String(encodejson);
+                string payload = EncryptionUtils.Encrypt(json, public_key);
+                AuthTokenAttr objEINV = new AuthTokenAttr();
+                objEINV.Data = payload;
+
+                string ReqData = JsonConvert.SerializeObject(objEINV);
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create(ConfigurationManager.AppSettings["EINVOICE_AUTHENTICATE_V103"]);
                 httpWebRequest.ContentType = "application/json; charset=utf-8";
                 httpWebRequest.Method = "POST";
@@ -81,7 +80,7 @@ namespace GetIrnConsoleApplication
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
                 using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
                 {
-                    streamWriter.Write(jsondata);
+                    streamWriter.Write(ReqData);
                     streamWriter.Flush();
                     streamWriter.Close();
                     try

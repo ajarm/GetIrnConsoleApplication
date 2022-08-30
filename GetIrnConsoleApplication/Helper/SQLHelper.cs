@@ -189,8 +189,8 @@ namespace GetIrnConsoleApplication.Helper
                 if (dt.Rows.Count > 0)
                 {
                     Username = dt.Rows[0]["Username"].ToString();
-                    EncryptedAppKey = dt.Rows[0]["EncryptedAppkey"].ToString();
-                    EncryptedPassword = dt.Rows[0]["EncryptedPassword"].ToString();
+                    EncryptedAppKey = dt.Rows[0]["Appkey"].ToString();
+                    EncryptedPassword = dt.Rows[0]["Password"].ToString();
                     //ForceRefreshToken = (bool)dt.Rows[0]["Force_Refresh_Accesstoken"];
                 }
                 con.Close();

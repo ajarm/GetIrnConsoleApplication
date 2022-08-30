@@ -44,8 +44,6 @@ namespace GetIrnConsoleApplication
                             count = ds.Tables[0].Rows.Count;
                         }
                     }
-                    
-
                 }
                 catch(Exception e)
                 {

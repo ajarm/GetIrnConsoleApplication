@@ -19,18 +19,18 @@ namespace GetIrnConsoleApplication
         [DataMember]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Data data { get; set; }
-        //[DataMember]
-        //[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        //public string UserName { get; set; }
+        [DataMember]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string UserName { get; set; }
 
-        //[DataMember]
-        //public string Password { get; set; }
+        [DataMember]
+        public string Password { get; set; }
 
-        //[DataMember]
-        //public string Appkey { get; set; }
+        [DataMember]
+        public string Appkey { get; set; }
 
-        //[DataMember]
-        //public bool ForceRefreshAccessToken { get; set; }
+        [DataMember]
+        public bool ForceRefreshAccessToken { get; set; }
 
 
     }
@@ -82,5 +82,10 @@ namespace GetIrnConsoleApplication
         public string Sek { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string TokenExpiry { get; set; }
+    }
+
+    public class AuthTokenAttr
+    {
+        public string Data { get; set; }
     }
 }
